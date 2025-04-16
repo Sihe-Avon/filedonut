@@ -38,6 +38,7 @@ export default function RootLayout({
       <html lang="en" suppressHydrationWarning>
         <Head>
           <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+          <link rel="icon" href="/favicon.ico" sizes="any" />
         </Head>
         <body>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
