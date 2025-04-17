@@ -19,7 +19,7 @@ import TermsAcceptance from '../components/TermsAcceptance'
 
 function PageWrapper({ children }: { children: React.ReactNode }): JSX.Element {
   return (
-    <div className="flex flex-col items-center py-2 max-w-full sm:max-w-2xl lg:max-w-4xl mx-auto px-4">
+    <div className="flex flex-col items-center py-2 max-w-full sm:max-w-2xl lg:max-w-4xl xl:max-w-6xl 2xl:max-w-7xl mx-auto px-4">
       <div className="flex flex-col items-center">
         <Spinner direction="up" />
         <Wordmark />

@@ -43,7 +43,7 @@ export default function RootLayout({
         <body className="h-screen flex flex-col">
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <FilePizzaQueryClientProvider>
-              <main className="flex-1 overflow-auto">{children}</main>
+              <main className="flex-1 overflow-auto flex flex-col items-center justify-center">{children}</main>
               <Footer />
               <ModeToggle />
             </FilePizzaQueryClientProvider>
