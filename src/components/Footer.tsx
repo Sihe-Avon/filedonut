@@ -31,14 +31,14 @@ export function Footer(): JSX.Element {
 
   return (
     <>
-      <footer className="text-xs border-t border-stone-200 dark:border-stone-700 shadow-[0_-1px_2px_rgba(0,0,0,0.04)] dark:shadow-[0_-1px_2px_rgba(255,255,255,0.04)] bg-stone-100/90 dark:bg-black/80 backdrop-blur z-40 h-[60px] sm:h-[40px] flex items-center relative">
-        <div className="w-full flex flex-col items-center justify-center h-full gap-1 px-4 sm:flex-row sm:gap-4">
-          <div className="flex flex-col items-center text-center sm:flex-row sm:text-left sm:whitespace-nowrap">
+      <footer className="text-xs border-t border-stone-200 dark:border-stone-700 shadow-[0_-1px_2px_rgba(0,0,0,0.04)] dark:shadow-[0_-1px_2px_rgba(255,255,255,0.04)] bg-stone-100/90 dark:bg-black/80 backdrop-blur z-40 h-[60px] flex items-center relative">
+        <div className="w-full flex flex-row items-center justify-center h-full gap-3 px-4">
+          <div className="flex flex-col items-center text-center">
             <span className="font-semibold text-xs">Enjoying FileDonut?</span>
-            <span className="font-normal text-xs sm:ml-1">Help keep the donuts rolling!</span>
+            <span className="font-normal text-xs">Help keep the donuts rolling!</span>
           </div>
           <button
-            className="flex items-center gap-1 px-2 py-0.5 bg-gradient-to-r from-yellow-400 to-pink-400 text-white rounded-full shadow hover:scale-105 transition font-medium text-xs w-auto mt-1 sm:mt-0"
+            className="flex items-center gap-1 px-2 py-0.5 bg-gradient-to-r from-yellow-400 to-pink-400 text-white rounded-full shadow hover:scale-105 transition font-medium text-xs w-auto shrink-0"
             onClick={handleDonate}
           >
             <span role="img" aria-label="donut">🍩</span> Donate

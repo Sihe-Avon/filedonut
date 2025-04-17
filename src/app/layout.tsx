@@ -40,7 +40,7 @@ export default function RootLayout({
           <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
           <link rel="icon" href="/favicon.ico" sizes="any" />
         </Head>
-        <body className="h-screen flex flex-col overflow-hidden">
+        <body className="h-screen flex flex-col">
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <FilePizzaQueryClientProvider>
               <main className="flex-1 overflow-auto">{children}</main>
