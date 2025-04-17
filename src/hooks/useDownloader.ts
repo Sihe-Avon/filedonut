@@ -168,40 +168,35 @@ export function useDownloader(uploaderPeerID: string): {
     if (isMobile) {
       console.log('[Downloader] Mobile device detected, using Blob download.');
       const fileChunks: Record<string, Uint8Array[]> = {};
-      let totalReceivedBytes = 0;
+      const receivedFinalFlags: Record<string, boolean> = {};
+      let currentBytesDownloaded = 0; // Use a local var for updates within the closure
 
+      // Define the chunk processor ONCE
       processChunk.current = (message: z.infer<typeof ChunkMessage>) => {
         const fileName = message.fileName;
         const chunk = new Uint8Array(message.bytes as ArrayBuffer);
 
+        // Initialize chunks array if first chunk for this file
         if (!fileChunks[fileName]) {
           fileChunks[fileName] = [];
         }
         fileChunks[fileName].push(chunk);
-        totalReceivedBytes += chunk.byteLength;
-        setBytesDownloaded(totalReceivedBytes);
 
+        // Update byte count
+        currentBytesDownloaded += chunk.byteLength;
+        setBytesDownloaded(currentBytesDownloaded);
+
+        // Check if this is the final chunk for THIS file
         if (message.final) {
           console.log('[Downloader] finished receiving (mobile)', fileName);
-          const allFilesReceived = filesInfo.every(info =>
-            fileChunks[info.fileName]?.length > 0 &&
-            fileChunks[info.fileName][fileChunks[info.fileName].length - 1] === chunk
-          );
+          receivedFinalFlags[fileName] = true;
 
-          const receivedFinalFlags: Record<string, boolean> = {};
-          processChunk.current = (message: z.infer<typeof ChunkMessage>) => {
-            const fileName = message.fileName;
-            const chunk = new Uint8Array(message.bytes as ArrayBuffer);
-            if(message.final) {
-              receivedFinalFlags[fileName] = true;
-              console.log('[Downloader] finished receiving (mobile)', fileName);
-            }
-            setBytesDownloaded((prev) => prev + chunk.byteLength);
+          // Check if ALL files have received their final chunk
+          const allFilesReceived = filesInfo.every(info => receivedFinalFlags[info.fileName]);
 
-            const allFilesReceived = filesInfo.every(info => receivedFinalFlags[info.fileName]);
-
-            if (allFilesReceived) {
-                console.log('[Downloader] All files received (mobile), creating Blobs...');
+          if (allFilesReceived) {
+            console.log('[Downloader] All files received (mobile), creating Blobs...');
+            try {
                 if (filesInfo.length === 1) {
                     const fileInfo = filesInfo[0];
                     const blob = new Blob(fileChunks[fileInfo.fileName], { type: fileInfo.type });
@@ -211,9 +206,13 @@ export function useDownloader(uploaderPeerID: string): {
                     a.download = fileInfo.fileName.replace(/^\//, '');
                     document.body.appendChild(a);
                     a.click();
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(url);
                     console.log('[Downloader] Single file download triggered (mobile)');
+                    // Delay revoke slightly to ensure download starts
+                    setTimeout(() => {
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                        console.log('[Downloader] Blob URL revoked (mobile)');
+                    }, 100);
                 } else {
                     console.warn('[Downloader] Multi-file download as ZIP on mobile is not fully supported via Blob method. Triggering first file download.');
                     if (filesInfo.length > 0 && fileChunks[filesInfo[0].fileName]) {
@@ -225,8 +224,12 @@ export function useDownloader(uploaderPeerID: string): {
                       a.download = fileInfo.fileName.replace(/^\//, '');
                       document.body.appendChild(a);
                       a.click();
-                      document.body.removeChild(a);
-                      URL.revokeObjectURL(url);
+                      console.log('[Downloader] First file download triggered (mobile, multi)');
+                      setTimeout(() => {
+                          document.body.removeChild(a);
+                          URL.revokeObjectURL(url);
+                          console.log('[Downloader] Blob URL revoked (mobile, multi)');
+                      }, 100);
                     } else {
                       setErrorMessage("Could not prepare files for download on mobile.");
                     }
@@ -234,22 +237,27 @@ export function useDownloader(uploaderPeerID: string): {
                 dataConnection.send({ type: MessageType.Done } as z.infer<typeof Message>);
                 setDone(true);
                 setRotating(false);
-            }
-          };
-
-          if (filesInfo.length > 0) {
-                console.log('[Downloader] Requesting first file (mobile - initial):', filesInfo[0].fileName);
-                dataConnection.send({
-                    type: MessageType.Start,
-                    fileName: filesInfo[0].fileName,
-                    offset: 0,
-                  } as z.infer<typeof Message>);
-          }
-
-        } else {
+             } catch (error) {
+                 console.error("[Downloader] Error during Blob creation/download (mobile):", error);
+                 setErrorMessage(`Failed to prepare download: ${error.message}`);
+                 setDone(false);
+                 setIsDownloading(false);
+                 setRotating(false);
+             }
+          } else {
+            // Not all files are finished, request the next UNFINISHED file
             const currentFileIndex = filesInfo.findIndex(info => info.fileName === fileName);
-            const nextFileIndex = currentFileIndex + 1;
-            if (nextFileIndex < filesInfo.length) {
+            let nextFileIndex = -1;
+            for (let i = 0; i < filesInfo.length; i++) {
+                // Find the first file after the current one that hasn't finished
+                const checkIndex = (currentFileIndex + 1 + i) % filesInfo.length;
+                if (!receivedFinalFlags[filesInfo[checkIndex].fileName]) {
+                    nextFileIndex = checkIndex;
+                    break;
+                }
+            }
+
+            if (nextFileIndex !== -1) {
                 console.log('[Downloader] Requesting next file (mobile):', filesInfo[nextFileIndex].fileName);
                 dataConnection.send({
                   type: MessageType.Start,
@@ -257,11 +265,14 @@ export function useDownloader(uploaderPeerID: string): {
                   offset: 0,
                 } as z.infer<typeof Message>);
             } else {
-                console.log('[Downloader] Last file chunk received, waiting for all final flags.');
+                // Should not happen if allFilesReceived check is correct
+                console.warn('[Downloader] Logic error: Final chunk received, but not all files marked done, and no next file found?');
             }
+          }
         }
-      };
+      }; // End of processChunk.current definition
 
+      // Initial request for the first file
       if (filesInfo.length > 0) {
         console.log('[Downloader] Requesting first file (mobile - initial):', filesInfo[0].fileName);
         dataConnection.send({
@@ -270,7 +281,6 @@ export function useDownloader(uploaderPeerID: string): {
             offset: 0,
           } as z.infer<typeof Message>);
       }
-
     } else {
       console.log('[Downloader] Desktop device detected, using StreamSaver.');
       const fileStreamByPath: Record<
