@@ -33,20 +33,23 @@ export function Footer(): JSX.Element {
     <>
       <div className="h-[100px]" /> {/* Spacer to account for footer height */}
       <footer className="fixed bottom-0 left-0 right-0 text-center py-2.5 pb-4 text-xs border-t border-stone-200 dark:border-stone-700 shadow-[0_-1px_2px_rgba(0,0,0,0.04)] dark:shadow-[0_-1px_2px_rgba(255,255,255,0.04)] bg-black/70 dark:bg-black/80 backdrop-blur z-40">
-        <div className="flex flex-col sm:flex-row items-center justify-center space-y-1 sm:space-y-0 sm:space-x-4 px-4 sm:px-6 md:px-8 w-full">
-          <div className="flex flex-col items-start sm:items-center flex-1 text-left sm:text-center">
-            <span className="font-semibold">Enjoying FileDonut?</span>
-            <span className="text-xs">Help keep the donuts rolling!</span>
+        {/* PC端横向一行，移动端分两行且Donate按钮在右侧，整体居中 */}
+        <div className="w-full flex flex-col sm:flex-row sm:items-center sm:justify-center px-4 sm:px-6 md:px-8">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-center w-full">
+            <div className="flex flex-col sm:flex-row sm:items-center flex-1 text-left sm:text-center">
+              <span className="font-semibold">Enjoying FileDonut?</span>
+              <span className="text-xs sm:ml-2">Help keep the donuts rolling!</span>
+            </div>
+            <button
+              className="flex items-center gap-1 px-3 py-1 bg-gradient-to-r from-yellow-400 to-pink-400 text-white rounded-full shadow hover:scale-105 transition font-medium text-xs mt-2 sm:mt-0 sm:ml-4"
+              onClick={handleDonate}
+            >
+              <span role="img" aria-label="donut">🍩</span> Donate
+            </button>
           </div>
-          <button
-            className="flex items-center gap-1 px-3 py-1 bg-gradient-to-r from-yellow-400 to-pink-400 text-white rounded-full shadow hover:scale-105 transition font-medium text-xs mt-2 sm:mt-0"
-            onClick={handleDonate}
-          >
-            <span role="img" aria-label="donut">🍩</span> Donate
-          </button>
         </div>
       </footer>
-      {/* 悬浮GitHub按钮，移动端隐藏 */}
+      {/* 悬浮GitHub按钮，移动端隐藏，PC端显示 */}
       <a
         href="https://github.com/kern/filepizza"
         target="_blank"
