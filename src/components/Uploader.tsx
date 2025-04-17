@@ -52,7 +52,7 @@ export default function Uploader({
 
   return (
     <>
-      <div className="max-w-2xl w-full mx-auto p-4 rounded-lg shadow mt-8 mb-4 border border-white/30 dark:border-stone-100/20 bg-white/40 dark:bg-stone-900/40 backdrop-blur">
+      <div className="max-w-full sm:max-w-2xl lg:max-w-4xl w-full mx-auto p-4 rounded-lg shadow mt-8 mb-4 border border-white/30 dark:border-stone-100/20 bg-white/40 dark:bg-stone-900/40 backdrop-blur">
         <div className="flex items-start gap-8">
           <div className="flex-none bg-white p-2 rounded-lg flex items-center justify-center w-32 h-32">
             <QRCode

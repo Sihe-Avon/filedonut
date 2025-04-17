@@ -49,7 +49,7 @@ export function ConnectingToUploader({
 
         <div className="space-y-4 text-stone-700 dark:text-stone-300">
           <p>
-            FilePizza uses direct peer-to-peer connections, but sometimes the
+            FileDonut uses direct peer-to-peer connections, but sometimes the
             connection can get stuck. Here are some possible reasons this can
             happen:
           </p>
@@ -59,7 +59,7 @@ export function ConnectingToUploader({
               <span className="text-base">🚪</span>
               <span className="text-sm">
                 The uploader may have closed their browser, lost connectivity,
-                or stopped the upload. FilePizza requires the uploader to stay
+                or stopped the upload. FileDonut requires the uploader to stay
                 online continuously because files are transferred directly
                 between browsers.
               </span>

@@ -19,7 +19,7 @@ import TermsAcceptance from '../components/TermsAcceptance'
 
 function PageWrapper({ children }: { children: React.ReactNode }): JSX.Element {
   return (
-    <div className="flex flex-col items-center py-2 max-w-2xl mx-auto px-4">
+    <div className="flex flex-col items-center py-2 max-w-full sm:max-w-2xl lg:max-w-4xl mx-auto px-4">
       <div className="flex flex-col items-center">
         <Spinner direction="up" />
         <Wordmark />
@@ -36,7 +36,7 @@ function InitialState({
 }): JSX.Element {
   return (
     <PageWrapper>
-      <div className="flex flex-col items-center max-w-md w-full">
+      <div className="flex flex-col items-center w-full max-w-full sm:max-w-lg md:max-w-xl lg:max-w-2xl">
         <TitleText>Peer-to-peer file transfers in your browser.</TitleText>
         <div className="mt-3 w-full flex justify-center">
           <DropZone onDrop={onDrop} />
@@ -113,7 +113,9 @@ function UploadingState({
           You are uploading {pluralize(uploadedFiles.length, 'file', 'files')}.
         </TitleText>
       </div>
-      <UploadFileList files={fileListData} />
+      <div className="w-full max-w-full sm:max-w-lg md:max-w-xl lg:max-w-2xl">
+        <UploadFileList files={fileListData} />
+      </div>
       <WebRTCPeerProvider>
         <Uploader files={uploadedFiles} password={password} onStop={onStop} />
       </WebRTCPeerProvider>
