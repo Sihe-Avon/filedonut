@@ -41,7 +41,10 @@ function InitialState({
         <div className="mt-3 w-full flex justify-center">
           <DropZone onDrop={onDrop} />
         </div>
-        <div className="mt-4 w-full">
+        <div className="mt-4 mb-1 w-full text-center text-xs text-stone-700 dark:text-stone-200">
+          Each file must be under <span className="underline">5MB</span>.
+        </div>
+        <div className="mt-2 w-full">
           <TermsAcceptance />
         </div>
       </div>

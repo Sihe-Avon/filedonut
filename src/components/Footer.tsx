@@ -31,15 +31,14 @@ export function Footer(): JSX.Element {
 
   return (
     <>
-      <div className="h-[2px]" /> {/* Spacer to account for footer height */}
-      <footer className="mt-auto relative text-xs border-t border-stone-200 dark:border-stone-700 shadow-[0_-1px_2px_rgba(0,0,0,0.04)] dark:shadow-[0_-1px_2px_rgba(255,255,255,0.04)] bg-stone-100/90 dark:bg-black/80 backdrop-blur z-40 h-[40px] flex items-center">
-        <div className="w-full flex items-center justify-center h-full gap-4 px-4">
-          <span className="text-xs whitespace-nowrap">
-            <span className="font-semibold">Enjoying FileDonut?</span>
-            <span className="font-normal"> Help keep the donuts rolling!</span>
-          </span>
+      <footer className="text-xs border-t border-stone-200 dark:border-stone-700 shadow-[0_-1px_2px_rgba(0,0,0,0.04)] dark:shadow-[0_-1px_2px_rgba(255,255,255,0.04)] bg-stone-100/90 dark:bg-black/80 backdrop-blur z-40 h-[60px] sm:h-[40px] flex items-center relative">
+        <div className="w-full flex flex-col items-center justify-center h-full gap-1 px-4 sm:flex-row sm:gap-4">
+          <div className="flex flex-col items-center text-center sm:flex-row sm:text-left sm:whitespace-nowrap">
+            <span className="font-semibold text-xs">Enjoying FileDonut?</span>
+            <span className="font-normal text-xs sm:ml-1">Help keep the donuts rolling!</span>
+          </div>
           <button
-            className="flex items-center gap-1 px-2 py-0.5 bg-gradient-to-r from-yellow-400 to-pink-400 text-white rounded-full shadow hover:scale-105 transition font-medium text-xs w-auto"
+            className="flex items-center gap-1 px-2 py-0.5 bg-gradient-to-r from-yellow-400 to-pink-400 text-white rounded-full shadow hover:scale-105 transition font-medium text-xs w-auto mt-1 sm:mt-0"
             onClick={handleDonate}
           >
             <span role="img" aria-label="donut">🍩</span> Donate
@@ -50,7 +49,7 @@ export function Footer(): JSX.Element {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="GitHub"
-          className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center justify-center rounded-full border border-stone-300 dark:border-stone-700 shadow-lg p-1.5 hover:bg-gray-100 dark:hover:bg-stone-700 transition"
+          className="hidden sm:absolute right-4 top-1/2 -translate-y-1/2 flex items-center justify-center rounded-full border border-stone-300 dark:border-stone-700 shadow-lg p-1.5 hover:bg-gray-100 dark:hover:bg-stone-700 transition"
           style={{ width: '28px', height: '28px' }}
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

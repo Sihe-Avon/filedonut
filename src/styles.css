@@ -4,12 +4,6 @@
 @tailwind utilities;
 
 html, body {
-  min-height: 100vh;
-  height: auto;
-}
-
-body {
-  font-family: 'Poppins', sans-serif;
   @apply transition-colors duration-500;
   background: linear-gradient(135deg, #fffbe7 0%, #ffe7c2 40%, #fff4e6 100%);
 }
@@ -21,6 +15,4 @@ html.dark body, body.dark {
 #__next {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  height: auto;
 }
