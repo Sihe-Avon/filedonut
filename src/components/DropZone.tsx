@@ -11,10 +11,10 @@ export default function DropZone({
   const [error, setError] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  const MAX_SIZE = 5 * 1024 * 1024 // 5MB
+  const MAX_SIZE = 100 * 1024 * 1024 // Changed to 100MB
 
   const showSizeError = useCallback(() => {
-    setError('File size limit is 5MB. Please select a smaller file.')
+    setError('File size limit is 100MB. Please select a smaller file.') // Updated text
     setTimeout(() => setError(null), 3000)
   }, [])
 

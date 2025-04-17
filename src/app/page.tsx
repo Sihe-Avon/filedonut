@@ -42,7 +42,7 @@ function InitialState({
           <DropZone onDrop={onDrop} />
         </div>
         <div className="mt-4 mb-1 w-full text-center text-xs text-stone-700 dark:text-stone-200">
-          Each file must be under <span className="underline">5MB</span>.
+          Each file must be under <span className="underline">100MB</span>.
         </div>
         <div className="mt-2 w-full">
           <TermsAcceptance />
