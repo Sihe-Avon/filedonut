@@ -7,6 +7,7 @@ import FilePizzaQueryClientProvider from '../components/QueryClientProvider'
 import { Viewport } from 'next'
 import { ViewTransitions } from 'next-view-transitions'
 import Head from 'next/head'
+import { Analytics } from '@vercel/analytics/react'
 
 export const metadata = {
   title: 'FileDonut • Your files, delivered.',
@@ -46,6 +47,7 @@ export default function RootLayout({
               <main className="flex-1 overflow-auto flex flex-col items-center justify-center">{children}</main>
               <Footer />
               <ModeToggle />
+              <Analytics />
             </FilePizzaQueryClientProvider>
           </ThemeProvider>
         </body>
