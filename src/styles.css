@@ -5,11 +5,11 @@
 
 html, body {
   @apply transition-colors duration-500;
-  background: linear-gradient(135deg, #fffbe7 0%, #ffe7c2 40%, #fff4e6 100%);
+  background: linear-gradient(135deg, #fffaf0 0%, #ffe4b5 50%, #fff8e1 100%);
 }
 
 html.dark body, body.dark {
-  background: linear-gradient(135deg, #232946 0%, #3a1c71 60%, #1a223d 100%);
+  background: linear-gradient(135deg, #2c2f4b 0%, #3a2a5e 50%, #282a40 100%);
 }
 
 #__next {
